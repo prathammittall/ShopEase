@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     updateCartCount();
     initHeroSlider();
+    initMobileMenu();
 });
 
 // Load Best Sellers
@@ -363,5 +364,38 @@ function initHeroSlider() {
     if (sliderContainer) {
         sliderContainer.addEventListener('mouseenter', stopSlideInterval);
         sliderContainer.addEventListener('mouseleave', startSlideInterval);
+    }
+}
+
+// Mobile Menu Functionality
+function initMobileMenu() {
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
+
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
     }
 } 
